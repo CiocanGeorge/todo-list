@@ -12,11 +12,31 @@ function App() {
   const [status, setStatus] = useState("all");
   const [filteredTodos, setFilteredTodos] = useState([]);
 
+  //run once when the app start
+  useEffect(() => {
+    getLocalTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   //use effect
   useEffect(() => {
     filterHandler();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    saveLocalTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [todos, status]);
+
+  //save to local
+  const saveLocalTodos = () => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }
+
+  const getLocalTodos = () => {
+
+    let todoLocal = localStorage.setItem('todos', JSON.stringify(todos));
+    console.log(todoLocal);
+    //setTodos(todoLocal);
+
+  }
 
   //functions
   const filterHandler = () => {
@@ -46,7 +66,7 @@ function App() {
         setTodos={setTodos}
         setInputText={setInputText}
         setStatus={setStatus}
-        
+
       />
       <TodoList setTodos={setTodos} todos={todos} filteredTodos={filteredTodos} />
     </div>
